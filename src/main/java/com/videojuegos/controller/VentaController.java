@@ -56,9 +56,12 @@ public class VentaController {
             v.setEstado("COMPLETADA");
             service.save(v);
             Long idVta = v.getIdVenta();
+            Long idUs = v.getIdUsuario();
             // SE GUARDA DETALLE
             List<VentaSchemas.VentaDetalleRequest> detalle = body.getDetalle();
             detalle.forEach(det -> {
+                Long idVid = det.getIdVideojuego();
+                service.DeleteCarrito(idUs, idVid);
                 DetalleVenta dv = new DetalleVenta();
                 dv.setIdVenta(idVta);
                 dv.setIdVideojuego(det.getIdVideojuego());

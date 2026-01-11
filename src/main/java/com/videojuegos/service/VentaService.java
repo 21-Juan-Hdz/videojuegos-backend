@@ -30,4 +30,7 @@ public class VentaService {
   public void deleteById(Long id) {
     repo.deleteById(id);
   }
+  public void DeleteCarrito (Long id_usuario, Long id_videojuego){
+      repo.DeleteCarrito(id_usuario, id_videojuego);
+  }
 }

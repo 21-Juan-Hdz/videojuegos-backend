@@ -16,9 +16,6 @@ public class VentaSchemas {
     public static class VentaDetalleRequest {
 
         @Schema(nullable = false)
-        @JsonProperty("id_usuario")
-        private Long idUsuario;
-        @Schema(nullable = false)
         @JsonProperty("id_videojuego")
         private Long idVideojuego;
         @Schema(nullable = false)
