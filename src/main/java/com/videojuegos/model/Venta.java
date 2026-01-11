@@ -2,7 +2,6 @@ package com.videojuegos.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -13,24 +12,24 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class Venta {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_venta")
+    private Long idVenta;
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id_venta")
-  private Long idVenta;
+  @ManyToOne 
+    @JoinColumn(name = "id_usuario", nullable = false)
+    private Usuario usuario;
 
-  @JoinColumn(name = "id_usuario")
-  private Long idUsuario;
+    @Column(name = "fecha_venta")
+    private LocalDateTime fechaVenta;
 
-  @Column(name = "fecha_venta")
-  private LocalDateTime fechaVenta;
+    @Column(nullable = false, precision = 12, scale = 2)
+    private BigDecimal total;
 
-  @Column(nullable = false, precision = 12, scale = 2)
-  private BigDecimal total;
+    @Column(name = "metodo_pago", length = 50)
+    private String metodoPago;
 
-  @Column(name = "metodo_pago", length = 50)
-  private String metodoPago;
-
-  @Column(length = 30)
-  private String estado;
+    @Column(length = 30)
+    private String estado;
 }

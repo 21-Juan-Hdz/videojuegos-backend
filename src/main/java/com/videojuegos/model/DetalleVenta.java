@@ -2,7 +2,6 @@ package com.videojuegos.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.math.BigDecimal;
 
 @Entity
@@ -12,24 +11,25 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Builder
 public class DetalleVenta {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_detalle_venta")
+    private Long idDetalleVenta;
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id_detalle_venta")
-  private Long idDetalleVenta;
+    @ManyToOne 
+    @JoinColumn(name = "id_venta", nullable = false)
+    private Venta venta;
 
-  @JoinColumn(name = "id_venta")
-  private Long idVenta;
+    @ManyToOne 
+    @JoinColumn(name = "id_videojuego", nullable = false)
+    private Producto producto;
 
-  @JoinColumn(name = "id_videojuego")
-  private Long idVideojuego;
+    @Column(nullable = false)
+    private Integer cantidad;
 
-  @Column(nullable = false)
-  private Integer cantidad;
+    @Column(name = "precio_unitario", nullable = false, precision = 12, scale = 2)
+    private BigDecimal precioUnitario;
 
-  @Column(name = "precio_unitario", nullable = false, precision = 12, scale = 2)
-  private BigDecimal precioUnitario;
-
-  @Column(nullable = false, precision = 12, scale = 2)
-  private BigDecimal subtotal;
+    @Column(nullable = false, precision = 12, scale = 2)
+    private BigDecimal subtotal;
 }

@@ -34,6 +34,6 @@ public class Producto {
   private LocalDate fechaLanzamiento;
   @Column(length = 30)
   private String estado;
-  @Column(columnDefinition = "LONGTEXT", name="imagen_url")
+  @Column(name = "imagen_url", columnDefinition = "LONGTEXT") 
   private String imagenUrl;
 }

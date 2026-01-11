@@ -1,13 +1,16 @@
 package com.videojuegos.repository;
 
+import com.videojuegos.model.Usuario; 
 import com.videojuegos.model.Venta;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import java.util.List;
 
 public interface VentaRepository extends JpaRepository<Venta, Long> {
+    List<Venta> findByUsuario(Usuario usuario);
     @Modifying
     @Transactional
     @Query(value = "DELETE FROM carrito WHERE id_usuario = :id_usuario AND id_videojuego = :id_videojuego;", nativeQuery = true)

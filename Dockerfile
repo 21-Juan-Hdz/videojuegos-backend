@@ -4,7 +4,7 @@ WORKDIR /app
 COPY pom.xml .
 RUN mvn -q -DskipTests dependency:go-offline
 COPY src ./src
-COPY db_script.sql ./db_script.sql
+#COPY db_script.sql ./db_script.sql
 RUN mvn -q -DskipTests package
 
 # ---- runtime stage ----
