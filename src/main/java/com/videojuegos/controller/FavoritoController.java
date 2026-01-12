@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 
 @RestController
 @RequestMapping("/api/favoritos")
+@CrossOrigin(origins = "*")
 public class FavoritoController {
     private final FavoritoService service;
     

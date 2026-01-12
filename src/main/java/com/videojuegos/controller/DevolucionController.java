@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("/api/devoluciones")
+@CrossOrigin(origins = "*")
 public class DevolucionController {
 
     private final DevolucionService service;

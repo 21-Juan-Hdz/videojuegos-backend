@@ -10,9 +10,11 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 @RestController
 @RequestMapping("/api/health")
+@CrossOrigin(origins = "*")
 public class HealthController {
 
   private final DataSource dataSource;
