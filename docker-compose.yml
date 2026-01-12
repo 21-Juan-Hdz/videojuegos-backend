@@ -27,8 +27,8 @@ services:
         condition: service_healthy
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/videojuegos_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: 12345
+      SPRING_DATASOURCE_USERNAME: avnadmin
+      SPRING_DATASOURCE_PASSWORD: AVNS_0TuBHQim2U0p9ByQOFK
       APP_JWT_SECRET: 4a0efa73ee27ab4b2ecaa6955ea9c0d33a72281eb78c4addc6a83238e53c6114
       JAVA_OPTS: -Duser.timezone=UTC
     ports:
