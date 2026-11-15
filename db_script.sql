@@ -4,6 +4,7 @@ USE videojuegos_db;
 
 SET FOREIGN_KEY_CHECKS = 0;
 
+DROP TABLE IF EXISTS favoritos;
 DROP TABLE IF EXISTS devoluciones;
 DROP TABLE IF EXISTS factura;
 DROP TABLE IF EXISTS detalle_venta;
@@ -98,17 +99,18 @@ CREATE TABLE favoritos (
   id_usuario BIGINT NOT NULL,
   id_videojuego BIGINT NOT NULL,
   CONSTRAINT fk_favo_usuario FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario),
-  CONSTRAINT fk_favo_factura FOREIGN KEY (id_usuario) REFERENCES producto(id_videojuegos)
+  CONSTRAINT fk_favo_producto FOREIGN KEY (id_videojuego) REFERENCES producto(id_videojuegos)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- =========================
 -- USUARIOS
+-- contraseña de todos los usuarios semilla: 12345 (BCrypt)
 -- =========================
 INSERT INTO usuarios(nombre, apellido, email, password, telefono, fecha_ingreso, rol, estado)
 VALUES 
-('Admin', 'System', 'admin@maestria.com', '$2a$10$kY1xT2o0AqkB0A5pCENg0uH4sXnhpXxkM8hY0q2V0w5f3k2gYtT8K', '7755220066', CURDATE(), 'ADMIN', 'ACTIVO'),
-('Juan', 'Hernandez', 'juan@test.com', '$2a$10$kY1xT2o0AqkB0A5pCENg0uH4sXnhpXxkM8hY0q2V0w5f3k2gYtT8K', '5512345678', CURDATE(), 'CLIENTE', 'ACTIVO'),
-('Maria', 'Lopez', 'maria@test.com', '$2a$10$kY1xT2o0AqkB0A5pCENg0uH4sXnhpXxkM8hY0q2V0w5f3k2gYtT8K', '5598765432', CURDATE(), 'CLIENTE', 'ACTIVO');
+('Admin', 'System', 'admin@maestria.com', '$2a$10$FIXEbzaur1tTAk9A65KxcOjc6UNTZIRH0QW99BRHikK/5hzL2qD9a', '7755220066', CURDATE(), 'ADMIN', 'ACTIVO'),
+('Juan', 'Hernandez', 'juan@test.com', '$2a$10$FIXEbzaur1tTAk9A65KxcOjc6UNTZIRH0QW99BRHikK/5hzL2qD9a', '5512345678', CURDATE(), 'CLIENTE', 'ACTIVO'),
+('Maria', 'Lopez', 'maria@test.com', '$2a$10$FIXEbzaur1tTAk9A65KxcOjc6UNTZIRH0QW99BRHikK/5hzL2qD9a', '5598765432', CURDATE(), 'CLIENTE', 'ACTIVO');
 
 -- =========================
 -- PRODUCTOS (Base64 simulado)

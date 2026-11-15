@@ -1,22 +1,27 @@
+# Prueba LOCAL: MySQL + API en el puerto 3000 (igual que en AWS).
+#   docker compose up --build
+#   http://localhost:3000/api/health/db
 services:
   mysql:
     image: mysql:8.0
     container_name: videojuegos-mysql
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: 12345
+      MYSQL_ROOT_PASSWORD: "12345"
       MYSQL_DATABASE: videojuegos_db
       TZ: UTC
+    command: ["--max_allowed_packet=64M"]
     ports:
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+      # Cambia a ./db_script.sql si quieres la versión ligera (sin imágenes reales)
       - ./docker/01_init.sql:/docker-entrypoint-initdb.d/01_init.sql:ro
     healthcheck:
-      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -proot --silent"]
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -p12345 --silent"]
       interval: 5s
       timeout: 3s
-      retries: 20
+      retries: 30
 
   api:
     build: .
@@ -26,13 +31,16 @@ services:
       mysql:
         condition: service_healthy
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/videojuegos_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-      SPRING_DATASOURCE_USERNAME: avnadmin
-      SPRING_DATASOURCE_PASSWORD: AVNS_0TuBHQim2U0p9ByQOFK
+      SERVER_PORT: "3000"
+      DB_HOST: mysql
+      DB_PORT: "3306"
+      DB_NAME: videojuegos_db
+      DB_USER: root
+      DB_PASSWORD: "12345"
       APP_JWT_SECRET: 4a0efa73ee27ab4b2ecaa6955ea9c0d33a72281eb78c4addc6a83238e53c6114
       JAVA_OPTS: -Duser.timezone=UTC
     ports:
-      - "8080:8080"
+      - "3000:3000"
 
 volumes:
   mysql_data:

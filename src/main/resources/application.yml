@@ -1,5 +1,17 @@
+# =====================================================================
+# Toda la configuración sensible / de entorno se toma de VARIABLES DE ENTORNO.
+#   SERVER_PORT   -> puerto HTTP (default 3000, el que espera el Nginx del front)
+#   DB_HOST       -> endpoint de RDS o IP privada de la instancia MySQL
+#   DB_PORT       -> default 3306
+#   DB_NAME       -> default videojuegos_db (el que crea db_script.sql)
+#   DB_USER       -> usuario de la BD
+#   DB_PASSWORD   -> contraseña de la BD
+#   DB_SSL_MODE   -> PREFERRED (default) | REQUIRED | DISABLED
+#   APP_JWT_SECRET-> secreto para firmar los JWT
+# =====================================================================
 server:
-  port: 8080
+  port: ${SERVER_PORT:3000}
+  address: 0.0.0.0
 
 app:
   jwt:
@@ -13,9 +25,9 @@ spring:
     init:
       mode: never
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://mysql-371d9e95-juan-11e2.k.aivencloud.com:10266/defaultdb?serverTimezone=UTC}
-    username: ${SPRING_DATASOURCE_USERNAME:avnadmin}
-    password: ${SPRING_DATASOURCE_PASSWORD:AVNS_0TuBHQim2U0p9ByQOFK}
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:videojuegos_db}?sslMode=${DB_SSL_MODE:PREFERRED}&allowPublicKeyRetrieval=true&serverTimezone=UTC&characterEncoding=UTF-8
+    username: ${DB_USER:root}
+    password: ${DB_PASSWORD:12345}
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       initialization-fail-timeout: -1
@@ -29,7 +41,7 @@ spring:
     generate-ddl: false
     hibernate:
       ddl-auto: none
-    show-sql: true
+    show-sql: ${SHOW_SQL:false}
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
@@ -65,3 +77,5 @@ management:
   endpoint:
     health:
       show-details: always
+      probes:
+        enabled: true   # /actuator/health/liveness (para health checks de ALB/ASG)

@@ -1,0 +1,3 @@
+# Los scripts de shell siempre con fin de línea LF (si no, fallan en Linux / user-data)
+*.sh  text eol=lf
+*.sql text eol=lf
