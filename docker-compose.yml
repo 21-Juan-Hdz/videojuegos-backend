@@ -1,46 +1,31 @@
-# Prueba LOCAL: MySQL + API en el puerto 3000 (igual que en AWS).
-#   docker compose up --build
-#   http://localhost:3000/api/health/db
+# Backend Videojuegos conectado a Amazon RDS (MySQL).
+#
+#   docker compose up --build -d
+#
+# Verificación:
+#   http://localhost:3000/api/health/db   -> "status": "UP"
+#   http://localhost:3000/api/producto
+#
+# El front (Nginx) espera el back en 10.0.3.50:3000, por eso se publica el puerto 3000.
 services:
-  mysql:
-    image: mysql:8.0
-    container_name: videojuegos-mysql
-    restart: unless-stopped
-    environment:
-      MYSQL_ROOT_PASSWORD: "12345"
-      MYSQL_DATABASE: videojuegos_db
-      TZ: UTC
-    command: ["--max_allowed_packet=64M"]
-    ports:
-      - "3306:3306"
-    volumes:
-      - mysql_data:/var/lib/mysql
-      # Cambia a ./db_script.sql si quieres la versión ligera (sin imágenes reales)
-      - ./docker/01_init.sql:/docker-entrypoint-initdb.d/01_init.sql:ro
-    healthcheck:
-      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -p12345 --silent"]
-      interval: 5s
-      timeout: 3s
-      retries: 30
-
   api:
     build: .
+    image: videojuegos-backend:latest
     container_name: videojuegos-api
-    restart: unless-stopped
-    depends_on:
-      mysql:
-        condition: service_healthy
+    restart: always
     environment:
       SERVER_PORT: "3000"
-      DB_HOST: mysql
+
+      # ===== Conexión a la base de datos (RDS) =====
+      DB_HOST: actividad1-tarea-4.cjy8so4ailak.us-east-1.rds.amazonaws.com
       DB_PORT: "3306"
-      DB_NAME: videojuegos_db
-      DB_USER: root
-      DB_PASSWORD: "12345"
+      DB_NAME: actividad_1_aws
+      DB_USER: admin
+      DB_PASSWORD: "PwfZ779X1oURt91I-UgRt8!Uq!yW&7sT"
+      DB_SSL_MODE: PREFERRED
+      # =============================================
+
       APP_JWT_SECRET: 4a0efa73ee27ab4b2ecaa6955ea9c0d33a72281eb78c4addc6a83238e53c6114
-      JAVA_OPTS: -Duser.timezone=UTC
+      JAVA_OPTS: -Xms128m -Xmx512m -Duser.timezone=UTC
     ports:
       - "3000:3000"
-
-volumes:
-  mysql_data:

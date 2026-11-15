@@ -33,15 +33,20 @@ Usuarios semilla del script SQL (contraseña `12345`): `admin@maestria.com`, `ju
 
 ---
 
-## Prueba local con Docker
+## Levantar con Docker (conecta a Amazon RDS)
+
+Los datos de conexión están en [`docker-compose.yml`](docker-compose.yml) (`DB_HOST`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`).
 
 ```bash
-docker compose up --build
+docker compose up --build -d
 # http://localhost:3000/api/health/db   -> "status": "UP"
 # http://localhost:3000/api/producto
+docker compose logs -f api     # ver logs
+docker compose down            # detener
 ```
 
-MySQL ejecuta `docker/01_init.sql` solo la primera vez. Para recargarlo: `docker compose down -v`.
+La máquina donde corre Docker debe poder llegar a la RDS por el puerto 3306
+(misma VPC y Security Group de la RDS permitiendo 3306 desde esa máquina).
 
 Sin Docker (con un MySQL local ya cargado con `db_script.sql`):
 
