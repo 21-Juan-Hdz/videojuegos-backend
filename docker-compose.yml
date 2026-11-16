@@ -21,7 +21,7 @@ services:
       DB_PORT: "3306"
       DB_NAME: actividad_1_aws
       DB_USER: admin
-      DB_PASSWORD: "500faysofsummer"
+      DB_PASSWORD: "500daysofsummer"
       DB_SSL_MODE: PREFERRED
       # =============================================
 
